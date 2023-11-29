@@ -1,6 +1,17 @@
 import express from "express";
+import cors from "cors";
 
-const app = express()
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const users = []
+
+app.post("/sign-up",(req,res)=>{
+    users.push(req.body)
+    res.send("OK")
+})
+
 
 const PORT = 5000
 app.listen(PORT,()=>console.log(`Servidor rodando na porta ${PORT}`))
