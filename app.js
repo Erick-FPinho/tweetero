@@ -31,6 +31,33 @@ app.post("/tweets",(req,res)=>{
     }
 })
 
+app.get("/tweets",(req,res)=>{
+    let tweetWithAvatarList = []
+    for(let i=0;i<tweets.length;i++){
+        for(let j=0;j<users.length;j++){
+            if(tweets[i].username===users[j].username){
+                let newTweetWithAvatar ={
+                    username: tweets[i].username,
+                    avatar: users[j].avatar,
+                    tweet: tweets[i].tweet
+                }
+
+                tweetWithAvatarList.push(newTweetWithAvatar)
+            }
+        }
+    }
+
+
+    let lastTweetsList = []
+    if(tweetWithAvatarList.length<=10){
+        lastTweetsList = tweetWithAvatarList
+    } else{
+        lastTweetsList = tweetWithAvatarList.slice(-10)
+    }
+
+    res.send(lastTweetsList)
+})
+
 
 const PORT = 5000
 app.listen(PORT,()=>console.log(`Servidor rodando na porta ${PORT}`))
