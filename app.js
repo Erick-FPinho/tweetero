@@ -49,20 +49,6 @@ app.get("/tweets",(req,res)=>{
         tweetWithAvatarList.push(newTweetWithAvatar)
     }
 
-    // for (let i = 0; i < tweets.length; i++) {
-    //     for (let j = 0; j < users.length; j++) {
-    //         if (tweets[i].username === users[j].username) {
-    //             let newTweetWithAvatar = {
-    //                 username: tweets[i].username,
-    //                 avatar: users[j].avatar,
-    //                 tweet: tweets[i].tweet
-    //             }
-
-    //             tweetWithAvatarList.push(newTweetWithAvatar)
-    //         }
-    //     }
-    // }
-
 
     let lastTweetsList = []
     if(tweetWithAvatarList.length<=10){
@@ -74,6 +60,24 @@ app.get("/tweets",(req,res)=>{
     res.send(lastTweetsList)
 })
 
+app.get("/tweets/:name",(req,res)=>{
+    let username = req.params.name
 
+    let tweetsFromUser = tweets.filter((element)=>element.username===username)
+    let tweetsFromUserWithAvatar = []
+    
+
+    for(let i=0;i<tweetsFromUser.length;i++){
+        let newTweetWithAvatar ={
+            username: tweetsFromUser[i].username,
+            avatar: usersAvatarTable[tweetsFromUser[i].username],
+            tweet: tweetsFromUser[i].tweet
+        }
+
+        tweetsFromUserWithAvatar.push(newTweetWithAvatar)
+    }
+
+    res.send(tweetsFromUserWithAvatar)
+})
 const PORT = 5000
 app.listen(PORT,()=>console.log(`Servidor rodando na porta ${PORT}`))
